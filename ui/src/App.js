@@ -72,9 +72,14 @@ function App() {
           <button className="nav-button" onClick={() => setCurrentPage('dashboard')}>Dashboard</button>
           <button className="nav-button" onClick={() => setCurrentPage('orders')}>Orders</button>
           <button className="nav-button" onClick={() => setCurrentPage('inventory')}>Inventory</button>
-          <button className="nav-button" onClick={() => setCurrentPage('notifications')}>Notifications</button>
+          {/* Only show Notifications and Logs for Admin users */}
+          {currentUser.role === 'Admin' && (
+            <>
+              <button className="nav-button" onClick={() => setCurrentPage('notifications')}>Notifications</button>
+              <button className="nav-button" onClick={() => setCurrentPage('logs')}>View Logs</button>
+            </>
+          )}
           <button className="nav-button" onClick={() => setCurrentPage('invoices')}>Invoices</button>
-          <button className="nav-button" onClick={() => setCurrentPage('logs')}>View Logs</button>
           <button className="nav-button" onClick={() => setCurrentPage('account')}>Account</button>
           <button className="nav-button" onClick={handleLogout}>Logout</button>
         </div>
