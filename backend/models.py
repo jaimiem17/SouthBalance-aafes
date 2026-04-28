@@ -4,7 +4,7 @@ from typing import Optional, List
 from uuid import uuid4
 
 from sqlmodel import SQLModel, Field, Relationship
-from sqlalchemy import Column, String, Boolean, Integer, DECIMAL, TIMESTAMP, ForeignKey
+from sqlalchemy import Column, String, Boolean, Integer, DECIMAL, TIMESTAMP, ForeignKey, Index
 from sqlalchemy.sql import func
 
 
@@ -138,3 +138,44 @@ class OrderItem(SQLModel, table=True):
     order: OrderHeader = Relationship(back_populates="items")
     stock: InventoryStock = Relationship(back_populates="order_items")
     custom_option: Optional[CustomOption] = Relationship(back_populates="order_items")
+
+
+class AuditLog(SQLModel, table=True):
+    __tablename__ = "audit_log"
+    __table_args__ = (
+        Index("idx_audit_account_id", "account_id"),
+        Index("idx_audit_order_id", "order_id"),
+        Index("idx_audit_timestamp", "timestamp"),
+    )
+
+    log_id: str = Field(default_factory=uuid_str, sa_column=Column(String(36), primary_key=True))
+    event_type: str = Field(sa_column=Column(String(100), nullable=False))
+    account_id: Optional[str] = Field(default=None, sa_column=Column(String(36), ForeignKey("user_account.account_id"), nullable=True))
+    order_id: Optional[str] = Field(default=None, sa_column=Column(String(36), ForeignKey("order_header.order_id"), nullable=True))
+    stock_id: Optional[str] = Field(default=None, sa_column=Column(String(36), ForeignKey("inventory_stock.stock_id"), nullable=True))
+    old_value: Optional[str] = Field(default=None, sa_column=Column(String(500), nullable=True))
+    new_value: Optional[str] = Field(default=None, sa_column=Column(String(500), nullable=True))
+    ip_address: Optional[str] = Field(default=None, sa_column=Column(String(50), nullable=True))
+    timestamp: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(TIMESTAMP, nullable=False, server_default=func.current_timestamp()),
+    )
+    details: Optional[str] = Field(default=None, sa_column=Column(String(1000), nullable=True))
+
+
+class NotificationLog(SQLModel, table=True):
+    __tablename__ = "notification_log"
+    __table_args__ = (
+        Index("idx_notification_order_id", "order_id"),
+        Index("idx_notification_timestamp", "timestamp"),
+    )
+
+    notification_id: str = Field(default_factory=uuid_str, sa_column=Column(String(36), primary_key=True))
+    order_id: str = Field(sa_column=Column(String(36), ForeignKey("order_header.order_id"), nullable=False))
+    notification_type: str = Field(sa_column=Column(String(100), nullable=False))
+    recipient_email: str = Field(sa_column=Column(String(200), nullable=False))
+    timestamp: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(TIMESTAMP, nullable=False, server_default=func.current_timestamp()),
+    )
+    details: Optional[str] = Field(default=None, sa_column=Column(String(1000), nullable=True))

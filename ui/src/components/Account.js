@@ -1,31 +1,100 @@
 import React from 'react';
 
-export default function Account({ navigateTo }) {
+export default function Account({ currentUser, onLogout }) {
   return (
     <div className="page-container">
-      <h1 style={{ marginBottom: '25px', color: '#2c3e50' }}>Account</h1>
-      
-      {/* Account Overview Section */}
-      <div className="card">
-        <h2 style={{ marginTop: 0, color: '#0056b3' }}>Account Overview</h2>
-        <p><strong>Account Name:</strong> -</p>
-        <p><strong>Account ID:</strong> -</p>
-      </div>
+      <h1
+        style={{
+          marginBottom: '30px',
+          color: '#2c3e50',
+          textAlign: 'center'
+        }}
+      >
+        My Account
+      </h1>
 
-      {/* Account Actions Section */}
-      <div className="card">
-        <h2 style={{ marginTop: 0, color: '#0056b3' }}>Account Actions</h2>
-        <div style={{ display: 'flex', gap: '15px' }}>
-          <button 
-            className="primary-button" 
-            onClick={() => navigateTo('login')}
-          >
-            &lt;- Log Out
-          </button>
-          <button className="primary-button">
-            Switch Account -&gt;
-          </button>
+      <div
+        className="card"
+        style={{
+          maxWidth: '650px',
+          margin: '0 auto',
+          padding: '40px',
+          textAlign: 'center'
+        }}
+      >
+        <h2
+          style={{
+            color: '#0056b3',
+            marginTop: 0,
+            marginBottom: '35px'
+          }}
+        >
+          Account Details
+        </h2>
+
+        <div
+          style={{
+            background: '#f7f9fc',
+            padding: '25px',
+            borderRadius: '12px',
+            marginBottom: '30px'
+          }}
+        >
+          <div style={{ marginBottom: '20px' }}>
+            <div
+              style={{
+                fontSize: '14px',
+                color: '#666',
+                marginBottom: '6px'
+              }}
+            >
+              ACCOUNT NAME
+            </div>
+
+            <div
+              style={{
+                fontSize: '28px',
+                fontWeight: '600',
+                color: '#2c3e50'
+              }}
+            >
+              {currentUser?.username || 'Unknown User'}
+            </div>
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: '14px',
+                color: '#666',
+                marginBottom: '6px'
+              }}
+            >
+              ROLE
+            </div>
+
+            <div
+              style={{
+                fontSize: '22px',
+                fontWeight: '500',
+                color: '#0056b3'
+              }}
+            >
+              {currentUser?.role || 'Unknown Role'}
+            </div>
+          </div>
         </div>
+
+        <button
+          className="primary-button"
+          onClick={onLogout}
+          style={{
+            padding: '14px 40px',
+            fontSize: '18px'
+          }}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

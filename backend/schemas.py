@@ -166,3 +166,89 @@ class OrderItemRead(SQLModel):
     custom_id: Optional[str] = None
     quantity_ordered: int
     calculated_item_cost: Decimal
+
+
+# ---------- Authentication Schemas ----------
+
+class LoginRequest(SQLModel):
+    username: str = Field(max_length=100)
+    password: str = Field(min_length=8, max_length=128)
+
+
+class UserInfo(SQLModel):
+    account_id: str
+    username: str
+    role: str
+
+
+class LoginResponse(SQLModel):
+    access_token: str
+    token_type: str = "bearer"
+    expires_in: int = 28800  # 8 hours in seconds
+    user: UserInfo
+
+
+# ---------- Audit Log Schemas ----------
+
+class AuditLogCreate(SQLModel):
+    event_type: str = Field(max_length=100)
+    account_id: Optional[str] = None
+    order_id: Optional[str] = None
+    stock_id: Optional[str] = None
+    old_value: Optional[str] = Field(default=None, max_length=500)
+    new_value: Optional[str] = Field(default=None, max_length=500)
+    ip_address: Optional[str] = Field(default=None, max_length=50)
+    details: Optional[str] = Field(default=None, max_length=1000)
+
+
+class AuditLogRead(SQLModel):
+    log_id: str
+    event_type: str
+    account_id: Optional[str] = None
+    order_id: Optional[str] = None
+    stock_id: Optional[str] = None
+    old_value: Optional[str] = None
+    new_value: Optional[str] = None
+    ip_address: Optional[str] = None
+    timestamp: datetime
+    details: Optional[str] = None
+
+
+# ---------- Notification Log Schemas ----------
+
+class NotificationLogCreate(SQLModel):
+    order_id: str
+    notification_type: str = Field(max_length=100)
+    recipient_email: str = Field(max_length=200)
+    details: Optional[str] = Field(default=None, max_length=1000)
+
+
+class NotificationLogRead(SQLModel):
+    notification_id: str
+    order_id: str
+    notification_type: str
+    recipient_email: str
+    timestamp: datetime
+    details: Optional[str] = None
+
+
+# ---------- Order Creation Request Schema ----------
+
+class OrderItemCreateRequest(SQLModel):
+    stock_id: str
+    quantity_ordered: int = Field(gt=0)
+    custom_id: Optional[str] = None
+
+
+class OrderCreateRequest(SQLModel):
+    dc_id: str
+    contact_email: str = Field(max_length=200)
+    items: list[OrderItemCreateRequest]
+
+    @field_validator("contact_email")
+    @classmethod
+    def validate_contact_email(cls, value: str) -> str:
+        email = value.strip()
+        if "@" not in email or "." not in email.rsplit("@", 1)[-1]:
+            raise ValueError("contact_email must be a valid email address")
+        return email
