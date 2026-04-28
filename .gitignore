@@ -1,53 +1,253 @@
-# Python
+# ============================================
+# AAFES Order Management MVP - .gitignore
+# ============================================
+
+# ============================================
+# Python / Backend
+# ============================================
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyo
 *.pyd
 .Python
+
+# Virtual environments
 env/
 venv/
 .venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
 
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
 
-# PyCharm
-.idea/
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
 
 # mypy
 .mypy_cache/
+.dmypy.json
+dmypy.json
 
-# Coverage
-htmlcov/
-.coverage
-.coverage.*
+# Pyre type checker
+.pyre/
 
-# VS Code
-.vscode/
+# ============================================
+# Database Files
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+database.db
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
 
-# Mac
-.DS_Store
+# ============================================
+# Environment Variables & Secrets
+# ============================================
+.env
+.env.local
+.env.*.local
+backend/.env
+ui/.env
+*.pem
+*.key
+secrets.json
 
-# Node
+# ============================================
+# Node.js / Frontend
+# ============================================
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
-yarn.lock
+.pnpm-debug.log*
+lerna-debug.log*
 
-# React build output
+# Dependency lock files (optional - uncomment if you want to ignore)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# React / Build output
 build/
+dist/
+ui/build/
+ui/dist/
+.next/
+out/
 
-# FastAPI / other
-__pycache__/
-*.sqlite3
-*.db
+# Testing
+coverage/
+.nyc_output
 
-# dotenv
-.env
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# OS generated
-ehthumbs.db
+# ============================================
+# IDEs and Editors
+# ============================================
+# VS Code
+.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================
+# Operating System Files
+# ============================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ============================================
+# Logs
+# ============================================
+*.log
+logs/
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.cache/
+tmp/
+temp/
+
+# ============================================
+# Project Specific
+# ============================================
+# Kiro specs (if you want to keep them private)
+# .kiro/
+
+# Documentation drafts
+*.draft.md
+
+# Test data exports
+exports/
+*.csv
+*.xlsx
+
+# Backup files
+*.backup
+backup/
+
+# ============================================
+# Docker (if you add Docker later)
+# ============================================
+# docker-compose.override.yml
+# .dockerignore
+
+# ============================================
+# CI/CD (if you add CI/CD later)
+# ============================================
+# .github/workflows/*.local.yml
